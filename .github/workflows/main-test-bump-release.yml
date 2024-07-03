@@ -1,0 +1,60 @@
+name: Test Bump and Release Main
+on:
+  workflow_dispatch:
+  push:
+      branches:
+        - 'main'
+      paths:
+        - '**.js'
+        - '**.ts'
+        - '**.json'
+env:
+  NODE_VERSION:
+jobs:
+  tests:
+    name: Ensure tests and builds are OK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+#      - run: npm test
+      - run: npm run build
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+
+  bump-and-publish:
+    needs: [tests]
+    name: 'Automated Version Bump'
+    if: "success() && !startsWith(github.event.head_commit.message, 'chore: version bump')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Bump
+        if: success()
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          major-wording: 'BREAKING'
+          default: 'minor'
+          commit-message: 'chore: version bump to {{version}}'
+      - uses: actions/setup-node@v4
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+        with:
+          node-version-file: .node-version
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install
+        run: npm ci
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

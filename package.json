@@ -1,8 +1,20 @@
 {
-  "name": "golive-github-actions",
-  "version": "1.0.0",
-  "description": "",
-  "private": true,
+  "name": "@apwide/golive-github-actions",
+  "version": "1.0.1",
+  "description": "Apwide Golive Github Actions",
+  "author": "Apwide",
+  "license": "MIT",
+  "keywords": [
+    "github",
+    "action",
+    "golive",
+    "apwide"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "type": "module",
   "scripts": {
     "test": "vitest",
@@ -26,8 +38,6 @@
       "default": "./dist/index.js"
     }
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.5.0",
     "@hey-api/openapi-ts": "0.48.0",

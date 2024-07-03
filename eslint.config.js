@@ -4,7 +4,7 @@ import tseslint from 'typescript-eslint'
 
 export default [
   {
-    ignores: ['dist/', 'src/client/', 'src/test/', 'vitest.config.js']
+    ignores: ['dist/', 'src/client/', 'test/', 'vitest.config.ts']
   },
   {
     name: 'github-apwide',
