@@ -88,7 +88,7 @@ export async function sendEnvironmentInfo() {
       status,
       deployment
     })
-    setOutput('status', 'Success')
+    setOutput('status', 'success')
   } catch (error) {
     if (error instanceof Error) {
       setFailed(error.message)

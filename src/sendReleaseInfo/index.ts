@@ -70,7 +70,7 @@ export async function sendReleaseInfo() {
       }
     })
 
-    setOutput('status', 'Success')
+    setOutput('status', 'success')
   } catch (error) {
     if (error instanceof Error) {
       setFailed(error.message)
