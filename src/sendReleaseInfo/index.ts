@@ -37,14 +37,14 @@ async function getTargetApplicationId(
 async function loadIssueKeys(inputs: SendReleaseInfoInput): Promise<string[]> {
   let issueKeys: string[] = []
   if (inputs.issueKeys) {
-    info('Loading Issue keys from input')
+    info('loading issue keys from input')
     issueKeys = [...issueKeys, ...inputs.issueKeys]
   }
   if (inputs.issueKeysFromCommitHistory) {
     issueKeys = [...issueKeys, ...(await findIssueKeys(inputs))]
   }
   const found = unique(issueKeys)
-  info(`Found issue keys ${found}`)
+  info(`found issue keys ${found}`)
   return found
 }
 
