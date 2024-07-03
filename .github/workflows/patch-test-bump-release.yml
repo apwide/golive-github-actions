@@ -7,6 +7,7 @@ on:
       - '**.js'
       - '**.ts'
       - '**.json'
+      - '**.yml'
 jobs:
   tests:
     name: Ensure tests and builds are OK
@@ -47,6 +48,8 @@ jobs:
 
       - name: Install
         run: npm ci
+      - name: Build
+        run: npm run build
       - name: Publish
         run: npm publish
         env:

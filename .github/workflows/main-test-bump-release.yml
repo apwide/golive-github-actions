@@ -8,6 +8,7 @@ on:
         - '**.js'
         - '**.ts'
         - '**.json'
+        - '**.yml'
 env:
   NODE_VERSION:
 jobs:
@@ -53,6 +54,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install
         run: npm ci
+      - name: Build
+        run: npm run build
       - name: Publish
         run: npm publish
         env:
