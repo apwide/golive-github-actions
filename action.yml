@@ -1,0 +1,126 @@
+name: 'Golive Send Environment Info'
+description: 'Send Environment Information to Golive'
+inputs:
+  goliveToken:
+    required: false
+    description: 'Golive API Token'
+  goliveUrl:
+    description: 'Api Base Url'
+    required: false
+    default: 'https://golive.apwide.net/api'
+  goliveUsername:
+    required: false
+    description: 'Golive API Username (Golive Server)'
+  golivePassword:
+    required: false
+    description: 'Golive API Username (Golive Server)'
+  githubToken:
+    required: true
+    description: 'Github token ({{secrets.GITHUB_TOKEN}})'
+  targetEnvironmentId:
+    required: false
+    description: 'Target environment the version is deployed to'
+  targetEnvironmentName:
+    required: false
+    description: 'Name of the environment in Apwide Golive'
+  targetEnvironmentAutoCreate:
+    required: false
+    description: 'Create the target environment with provided information if it does not exist yet in Apwide Golive.'
+    default: 'false'
+  targetApplicationName:
+    required: false
+    description: 'Type the name of the application to select or create the target environment.'
+  targetApplicationId:
+    required: false
+    description: 'Select an existing application to use to find/create the target environment.'
+  targetApplicationAutoCreate:
+    required: false
+    description: |
+      Create the target application with provided name if it does not exist yet in Apwide Golive.
+      N.B. User associated to your connection must have permission to manage applications in order to automatically create new applications.
+    default: 'false'
+  targetCategoryName:
+    required: false
+    description: 'Type the name of the category to find/create the target environment.'
+  targetCategoryId:
+    required: false
+    description: 'Select an existing category to use to find/create the target environment.'
+  targetCategoryAutoCreate:
+    required: false
+    description: |
+      Create the target category with provided name if it does not exist yet in Apwide Golive.
+      N.B. User associated to your connection must have permission to manage categories in order to automatically create new categories.
+    default: 'false'
+  deploymentVersionName:
+    required: false
+    description: 'Deployed version name'
+  deploymentBuildNumber:
+    required: false
+    description: 'Build number of the deployed version. Ex: $(Build.BuildNumber)'
+  deploymentDeployedDate:
+    required: false
+    description: 'Date in ISO-8601 format. Ex: 2023-09-24T12:00:00Z'
+  deploymentDescription:
+    required: false
+    description: |
+      Description of the deployment (markdown is supported). Ex: 
+      ✅ **Job** #$(Build.BuildId) - $(Build.DefinitionName)
+      Requested by: $(Build.RequestedFor) 
+      Branch: $(Build.SourceBranchName)
+  deploymentAttributes:
+    required: false
+    description: |
+      Deployment attribute values in key-value JSON format. Ex:
+      {
+        "Requested By" : "me@company.com",
+        "Artefacts" : "https://binaries.company.com/download/232323",
+        "Repository" : "https://github.com/"
+      }
+  deploymentIssueKeys:
+    required: false
+    description: 'Comma separated list of Jira issue keys that are deployed. Ex: ECOM-3412,ECOM-6783,PAY-98'
+  deploymentIssueKeysFromCommitHistory:
+    required: false
+    description: 'Parse and retrieve the Jira issue keys found in commit history and add them to the current deployment.'
+    default: 'false'
+  deploymentIssuesFromJql:
+    required: false
+    description: |
+      Set the JQL query used to retrieve and add Jira tickets to the current deployment. 
+      Ex: project = ECP AND type in (Story, Bug) AND resolution in (Fixed).
+      More about JQL [here](https://www.atlassian.com/software/jira/guides/jql)
+  deploymentAddDoneIssuesOfJiraVersion:
+    required: false
+    description: 'Add all "Done" issues fixed in the deployed Jira version to the current deployment'
+    default: 'false'
+  deploymentNoFixVersionUpdate:
+    required: false
+    description: 'Do not add the deployed Jira version to "Fix versions" of the deployed Jira issues.'
+    default: 'false'
+  deploymentSendJiraNotification:
+    required: false
+    description: 'Trigger the standard Jira notification when updating the "Fix versions" of the deployed issues.'
+  environmentStatusName:
+    required: false
+    description: 'Type the name of the new status of the environment'
+  environmentStatusId:
+    required: false
+    description: 'Select the new status of the environment'
+  environmentUrl:
+    required: false
+    description: 'Update the url of the environment'
+  environmentAttributes:
+    required: false
+    description: |
+      Environment attribute values in key-value JSON format. Ex:
+      {
+        "OS" : "Linux",
+        "Location" : "Switzerland",
+        "Owner" : "me@company.com"
+      }
+outputs:
+  status:
+    description: 'Status of the action'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

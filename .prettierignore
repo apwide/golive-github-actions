@@ -1,0 +1,10 @@
+.yalc/
+*.lock
+.eslintignore
+src/client/
+dist/
+.github/
+tsconfig.json
+action.yml
+README.md
+src/swagger.json
