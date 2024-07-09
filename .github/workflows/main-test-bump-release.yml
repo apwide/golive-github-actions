@@ -9,8 +9,6 @@ on:
         - '**.ts'
         - '**.json'
         - '**.yml'
-env:
-  NODE_VERSION:
 jobs:
   tests:
     name: Ensure tests and builds are OK
