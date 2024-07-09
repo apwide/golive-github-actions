@@ -75,5 +75,6 @@ export async function sendReleaseInfo() {
     if (error instanceof Error) {
       setFailed(error.message)
     }
+    setOutput('status', 'failed')
   }
 }

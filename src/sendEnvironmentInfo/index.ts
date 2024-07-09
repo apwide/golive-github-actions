@@ -93,5 +93,6 @@ export async function sendEnvironmentInfo() {
     if (error instanceof Error) {
       setFailed(error.message)
     }
+    setOutput('status', 'failed')
   }
 }

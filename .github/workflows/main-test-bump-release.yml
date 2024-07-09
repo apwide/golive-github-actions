@@ -98,7 +98,9 @@ jobs:
           git config --global user.email 'ci@apwide.com'
           git add -A
           git commit -am "chore: bumped golive-github-actions to ${{ needs.bump-and-publish.outputs.version }}"
+          git tag v${{needs.bump-and-publish.outputs.version}}
           git push
+          git push --tags
 
   bump-send-release-info-action:
     needs: bump-and-publish
@@ -133,5 +135,8 @@ jobs:
           git config --global user.email 'ci@apwide.com'
           git add -A
           git commit -am "chore: bumped golive-github-actions to ${{ needs.bump-and-publish.outputs.version }}"
+          git tag v${{needs.bump-and-publish.outputs.version}}
           git push
+          git push --tags
+          
 
