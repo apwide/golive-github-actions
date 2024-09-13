@@ -5,7 +5,7 @@ import { GoliveClient } from '../core/GoliveClient'
 import { findIssueKeys } from '../core/scope'
 
 async function toDeployment(input: SendEnvironmentInfoInput): Promise<DeploymentInfo | undefined> {
-  const issueKeys = await findIssueKeys(input)
+  const issueKeys = input.deploymentIssueKeysFromCommitHistory ? await findIssueKeys(input) : []
   info(`found issues '${issueKeys}'`)
   if (
     !input.deploymentVersionName &&
