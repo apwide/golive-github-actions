@@ -1,9 +1,7 @@
 import {
-  ApiError,
   ApplicationService,
   EnvironmentInfoRequest,
   EnvironmentService,
-  OpenAPI,
   type PostEnvironmentInformationResponse,
   PostVersionResponse,
   VersionInfoRequest,
@@ -11,6 +9,7 @@ import {
 } from '../client'
 import { debug, error } from '@actions/core'
 import { getString, s } from './utils'
+import { client } from '../client/client.gen'
 
 export type GoliveClientConfig = {
   goliveToken?: string
@@ -28,14 +27,30 @@ export function goliveConfig(): GoliveClientConfig {
   }
 }
 
-function setupGolive({ goliveUrl, goliveToken, goliveUsername, golivePassword }: GoliveClientConfig) {
-  OpenAPI.BASE = goliveUrl || 'https://golive.apwide.net/api'
-  if (goliveToken?.trim().length || 0 > 0) {
-    OpenAPI.TOKEN = goliveToken
+function auth({ goliveToken, goliveUsername, golivePassword }: Omit<GoliveClientConfig, 'goliveUrl'>): Record<string, string> {
+  if (goliveUsername) {
+    const auth = `${goliveUsername}:${golivePassword}`
+    const b64Auth = Buffer.from(auth).toString('base64')
+    return {
+      Authorization: `Basic ${b64Auth}`
+    }
+  } else if (goliveToken) {
+    return {
+      Authorization: `Bearer ${goliveToken}`
+    }
   } else {
-    OpenAPI.USERNAME = goliveUsername
-    OpenAPI.PASSWORD = golivePassword
+    return {}
   }
+}
+
+export function setupGolive({ goliveUrl, ...authConfig }: GoliveClientConfig) {
+  client.setConfig({
+    baseUrl: goliveUrl || 'https://golive.apwide.net/api',
+    headers: {
+      ...client.getConfig().headers || {},
+      ...auth(authConfig)
+    }
+  })
 }
 
 function removeUndefined<T>(obj: T): T {
@@ -55,19 +70,21 @@ async function handleError<T>(f: () => Promise<T>): Promise<T> {
   try {
     return await f()
   } catch (e: unknown) {
-    if (e instanceof ApiError) {
-      error(`
-        Golive error:
-        - url: ${e.url}
-        - request body: ${s(e.request?.body)}
-        - message: ${e.message}
-        - status: ${e.status}
-        - statusText: ${e.statusText}
-        - response body: ${s(e.body)}
-        `)
-    } else {
-      error('non-ApiError thrown')
-    }
+    console.log('Julien', e)
+    // error(e)
+    // if (e instanceof ApiError) {
+    //   error(`
+    //     Golive error:
+    //     - url: ${e.url}
+    //     - request body: ${s(e.request?.body)}
+    //     - message: ${e.message}
+    //     - status: ${e.status}
+    //     - statusText: ${e.statusText}
+    //     - response body: ${s(e.body)}
+    //     `)
+    // } else {
+    //   error('non-ApiError thrown')
+    // }
     throw e
   }
 }
@@ -81,7 +98,7 @@ export class GoliveClient {
     debug('sending environment info')
     return handleError(() =>
       EnvironmentService.postEnvironmentInformation({
-        requestBody: removeUndefined(info)
+        body: removeUndefined(info)
       })
     )
   }
@@ -90,7 +107,7 @@ export class GoliveClient {
     debug('sending release info')
     return handleError(() =>
       VersionService.postVersion({
-        requestBody: removeUndefined(info)
+        body: removeUndefined(info)
       })
     )
   }
@@ -101,6 +118,6 @@ export class GoliveClient {
   }
 
   async createApplication(name: string) {
-    return ApplicationService.postApplication({ requestBody: { name } })
+    return ApplicationService.postApplication({ body: { name } })
   }
 }
