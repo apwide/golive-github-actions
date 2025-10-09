@@ -42,6 +42,7 @@ function removeUndefined<T>(obj: T): T {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const payload = obj as any
   Object.keys(payload).forEach((key) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     payload[key] === undefined && delete payload[key]
     if (typeof payload[key] === 'object') {
       removeUndefined(payload[key])
