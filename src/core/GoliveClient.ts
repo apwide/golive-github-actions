@@ -2,6 +2,7 @@ import {
   ApplicationService,
   EnvironmentInfoRequest,
   EnvironmentService,
+  ErrorCollection,
   type PostEnvironmentInformationResponse,
   PostVersionResponse,
   VersionInfoRequest,
@@ -66,25 +67,26 @@ function removeUndefined<T>(obj: T): T {
   return payload
 }
 
-async function handleError<T>(f: () => Promise<T>): Promise<T> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isErrorCollection(error: any): error is ErrorCollection {
+  return error?.errorMessages || error?.errors || error?.status
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function handleError<T>(request:any, f: () => Promise<T>): Promise<T> {
   try {
     return await f()
   } catch (e: unknown) {
-    console.log('Julien', e)
-    // error(e)
-    // if (e instanceof ApiError) {
-    //   error(`
-    //     Golive error:
-    //     - url: ${e.url}
-    //     - request body: ${s(e.request?.body)}
-    //     - message: ${e.message}
-    //     - status: ${e.status}
-    //     - statusText: ${e.statusText}
-    //     - response body: ${s(e.body)}
-    //     `)
-    // } else {
-    //   error('non-ApiError thrown')
-    // }
+    if (isErrorCollection(e)) {
+      error(`
+        Golive error:
+        - request body: ${s(request)}
+        - status: ${e.status}
+        - response body: ${s(e)}
+        `)
+    } else {
+      error('non-ApiError thrown')
+    }
     throw e
   }
 }
@@ -96,7 +98,7 @@ export class GoliveClient {
 
   async sendEnvironmentInfo(info: EnvironmentInfoRequest): Promise<PostEnvironmentInformationResponse> {
     debug('sending environment info')
-    return handleError(() =>
+    return handleError(info, () =>
       EnvironmentService.postEnvironmentInformation({
         body: removeUndefined(info)
       })
@@ -105,7 +107,7 @@ export class GoliveClient {
 
   async sendReleaseInfo(info: VersionInfoRequest): Promise<PostVersionResponse> {
     debug('sending release info')
-    return handleError(() =>
+    return handleError(info, () =>
       VersionService.postVersion({
         body: removeUndefined(info)
       })
