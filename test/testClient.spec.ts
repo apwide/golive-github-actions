@@ -20,7 +20,7 @@ test('should call int with token', async () => {
     requestBody: {
       environmentSelector: {
         environment: {
-          id: 58
+          id: 18
         }
       },
       status: {
