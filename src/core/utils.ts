@@ -79,7 +79,7 @@ export function s(o: unknown): string {
   }
   try {
     return JSON.stringify(o)
-  } catch (e) {
+  } catch {
     return `${o}`
   }
 }

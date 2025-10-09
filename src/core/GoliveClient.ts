@@ -1,9 +1,8 @@
 import {
-  ApiError,
   ApplicationService,
   EnvironmentInfoRequest,
   EnvironmentService,
-  OpenAPI,
+  ErrorCollection,
   type PostEnvironmentInformationResponse,
   PostVersionResponse,
   VersionInfoRequest,
@@ -11,6 +10,7 @@ import {
 } from '../client'
 import { debug, error } from '@actions/core'
 import { getString, s } from './utils'
+import { client } from '../client/client.gen'
 
 export type GoliveClientConfig = {
   goliveToken?: string
@@ -28,20 +28,37 @@ export function goliveConfig(): GoliveClientConfig {
   }
 }
 
-function setupGolive({ goliveUrl, goliveToken, goliveUsername, golivePassword }: GoliveClientConfig) {
-  OpenAPI.BASE = goliveUrl || 'https://golive.apwide.net/api'
-  if (goliveToken?.trim().length || 0 > 0) {
-    OpenAPI.TOKEN = goliveToken
+function auth({ goliveToken, goliveUsername, golivePassword }: Omit<GoliveClientConfig, 'goliveUrl'>): Record<string, string> {
+  if (goliveUsername) {
+    const auth = `${goliveUsername}:${golivePassword}`
+    const b64Auth = Buffer.from(auth).toString('base64')
+    return {
+      Authorization: `Basic ${b64Auth}`
+    }
+  } else if (goliveToken) {
+    return {
+      Authorization: `Bearer ${goliveToken}`
+    }
   } else {
-    OpenAPI.USERNAME = goliveUsername
-    OpenAPI.PASSWORD = golivePassword
+    return {}
   }
+}
+
+export function setupGolive({ goliveUrl, ...authConfig }: GoliveClientConfig) {
+  client.setConfig({
+    baseUrl: goliveUrl || 'https://golive.apwide.net/api',
+    headers: {
+      ...client.getConfig().headers || {},
+      ...auth(authConfig)
+    }
+  })
 }
 
 function removeUndefined<T>(obj: T): T {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const payload = obj as any
   Object.keys(payload).forEach((key) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     payload[key] === undefined && delete payload[key]
     if (typeof payload[key] === 'object') {
       removeUndefined(payload[key])
@@ -50,19 +67,22 @@ function removeUndefined<T>(obj: T): T {
   return payload
 }
 
-async function handleError<T>(f: () => Promise<T>): Promise<T> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isErrorCollection(error: any): error is ErrorCollection {
+  return error?.errorMessages || error?.errors || error?.status
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function handleError<T>(request:any, f: () => Promise<T>): Promise<T> {
   try {
     return await f()
   } catch (e: unknown) {
-    if (e instanceof ApiError) {
+    if (isErrorCollection(e)) {
       error(`
         Golive error:
-        - url: ${e.url}
-        - request body: ${s(e.request?.body)}
-        - message: ${e.message}
+        - request body: ${s(request)}
         - status: ${e.status}
-        - statusText: ${e.statusText}
-        - response body: ${s(e.body)}
+        - response body: ${s(e)}
         `)
     } else {
       error('non-ApiError thrown')
@@ -78,18 +98,18 @@ export class GoliveClient {
 
   async sendEnvironmentInfo(info: EnvironmentInfoRequest): Promise<PostEnvironmentInformationResponse> {
     debug('sending environment info')
-    return handleError(() =>
+    return handleError(info, () =>
       EnvironmentService.postEnvironmentInformation({
-        requestBody: removeUndefined(info)
+        body: removeUndefined(info)
       })
     )
   }
 
   async sendReleaseInfo(info: VersionInfoRequest): Promise<PostVersionResponse> {
     debug('sending release info')
-    return handleError(() =>
+    return handleError(info, () =>
       VersionService.postVersion({
-        requestBody: removeUndefined(info)
+        body: removeUndefined(info)
       })
     )
   }
@@ -100,6 +120,6 @@ export class GoliveClient {
   }
 
   async createApplication(name: string) {
-    return ApplicationService.postApplication({ requestBody: { name } })
+    return ApplicationService.postApplication({ body: { name } })
   }
 }
