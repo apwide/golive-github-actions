@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.capture.outputs.version }}
+      branch: ${{ steps.extract_branch.outputs.branch }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -88,11 +89,11 @@ jobs:
           npm install @apwide/golive-github-actions@${{ needs.bump-and-publish.outputs.version }}
           npm ci
           npm run build
-      - name: push
-        run: |
-          git add -A
-          git commit -am "chore: bumped golive-github-actions to ${{ needs.bump-and-publish.outputs.version }}"
-          git push
+#      - name: push
+#        run: |
+#          git add -A
+#          git commit -am "chore: bumped golive-github-actions to ${{ needs.bump-and-publish.outputs.version }}"
+#          git push
 
   bump-send-release-info-action:
     needs: bump-and-publish
@@ -127,8 +128,8 @@ jobs:
           npm install @apwide/golive-github-actions@${{ needs.bump-and-publish.outputs.version }}
           npm ci
           npm run build
-      - name: push
-        run: |
-          git add -A
-          git commit -am "chore: bumped golive-github-actions to ${{ needs.bump-and-publish.outputs.version }}"
-          git push
+#      - name: push
+#        run: |
+#          git add -A
+#          git commit -am "chore: bumped golive-github-actions to ${{ needs.bump-and-publish.outputs.version }}"
+#          git push
