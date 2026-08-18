@@ -1,8 +1,18 @@
-import { afterEach, beforeEach, describe, it, MockInstance, vi } from 'vitest'
-import { sendEnvironmentInfo } from '../src/sendEnvironmentInfo'
-import * as core from '@actions/core'
+import { afterEach, beforeEach, describe, it, vi } from 'vitest'
+import { sendEnvironmentInfo } from '../src'
 
-let getInputMock: MockInstance
+const { getInputMock } = vi.hoisted(() => ({
+  getInputMock: vi.fn()
+}))
+
+vi.mock('@actions/core', async () => {
+  const actual = await vi.importActual<typeof import('@actions/core')>('@actions/core')
+
+  return {
+    ...actual,
+    getInput: getInputMock
+  }
+})
 
 vi.stubEnv('GITHUB_WORKFLOW', 'Build and Release')
 vi.stubEnv('GITHUB_JOB', '')
@@ -14,8 +24,8 @@ vi.stubEnv('GITHUB_REPOSITORY', 'apwidejulien/test-github-actions')
 
 describe('github action', async () => {
   beforeEach(() => {
-    getInputMock = vi.spyOn(core, 'getInput')
-    getInputMock.mockImplementation((key) => process.env[key])
+    getInputMock.mockReset()
+    getInputMock.mockImplementation((key: string) => process.env[key])
   })
 
   afterEach(() => {

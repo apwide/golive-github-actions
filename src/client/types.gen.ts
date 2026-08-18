@@ -41,10 +41,7 @@ export type ApplicationResponse = {
     outgoingDependencies?: Array<NamedReference>;
 };
 
-export const TierType = {
-    STANDALONE: 'STANDALONE',
-    TIER: 'TIER'
-} as const;
+export const TierType = { STANDALONE: 'STANDALONE', TIER: 'TIER' } as const;
 
 export type TierType = typeof TierType[keyof typeof TierType];
 
@@ -480,6 +477,13 @@ export type EnvironmentResponseWritable = {
     };
 };
 
+export type PaginatedEnvironmentResponseWritable = {
+    count: number;
+    limit?: number;
+    offset: number;
+    environments?: Array<EnvironmentResponseWritable>;
+};
+
 export type EnvironmentWatcherWritable = {
     userKey?: string;
     userName?: string;
@@ -489,6 +493,12 @@ export type EnvironmentWatcherWritable = {
     watchStatus: boolean;
     watchIssueAdded: boolean;
     watchIssueRemoved: boolean;
+};
+
+export type EnvironmentInfoResponseWritable = {
+    environment: NamedReference;
+    deployment?: DeploymentDetailWritable;
+    status?: NamedReference;
 };
 
 export type DeploymentDetailWritable = {

@@ -24,7 +24,9 @@ export const ErrorCollectionSchema = {
 
 export const ApplicationRequestSchema = {
     type: 'object',
-    required: ['name'],
+    required: [
+        'name'
+    ],
     properties: {
         name: {
             type: 'string',
@@ -43,39 +45,39 @@ export const ApplicationRequestSchema = {
             type: 'boolean'
         },
         deploymentConfiguration: {
-            '$ref': '#/components/schemas/DeploymentConfiguration'
+            $ref: '#/components/schemas/DeploymentConfiguration'
         },
         deploymentAttributes: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/Attribute'
+                $ref: '#/components/schemas/Attribute'
             }
         },
         tierType: {
-            '$ref': '#/components/schemas/TierType'
+            $ref: '#/components/schemas/TierType'
         },
         parents: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         tiers: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         incomingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         outgoingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         }
     }
@@ -83,7 +85,10 @@ export const ApplicationRequestSchema = {
 
 export const ApplicationResponseSchema = {
     type: 'object',
-    required: ['id', 'name'],
+    required: [
+        'id',
+        'name'
+    ],
     properties: {
         id: {
             type: 'integer',
@@ -107,39 +112,39 @@ export const ApplicationResponseSchema = {
             type: 'boolean'
         },
         deploymentConfiguration: {
-            '$ref': '#/components/schemas/DeploymentConfiguration'
+            $ref: '#/components/schemas/DeploymentConfiguration'
         },
         deploymentAttributes: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/Attribute'
+                $ref: '#/components/schemas/Attribute'
             }
         },
         tierType: {
-            '$ref': '#/components/schemas/TierType'
+            $ref: '#/components/schemas/TierType'
         },
         parents: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         tiers: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         incomingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         outgoingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         }
     }
@@ -148,7 +153,10 @@ export const ApplicationResponseSchema = {
 export const TierTypeSchema = {
     type: 'string',
     example: 'STANDALONE',
-    enum: ['STANDALONE', 'TIER']
+    enum: [
+        'STANDALONE',
+        'TIER'
+    ]
 } as const;
 
 export const AttributeSchema = {
@@ -199,7 +207,17 @@ export const AttributeValueSchema = {
 
 export const DeploymentResponseSchema = {
     type: 'object',
-    required: ['applicationId', 'applicationName', 'categoryId', 'categoryName', 'deployedTime', 'deployer', 'deploymentId', 'environmentId', 'id'],
+    required: [
+        'applicationId',
+        'applicationName',
+        'categoryId',
+        'categoryName',
+        'deployedTime',
+        'deployer',
+        'deploymentId',
+        'environmentId',
+        'id'
+    ],
     properties: {
         deploymentId: {
             type: 'integer',
@@ -283,7 +301,7 @@ export const DeploymentResponseSchema = {
         orderedAttributes: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/AttributeValue'
+                $ref: '#/components/schemas/AttributeValue'
             }
         },
         issueKeys: {
@@ -302,7 +320,17 @@ export const DeploymentResponseSchema = {
 
 export const DeploymentRequestSchema = {
     type: 'object',
-    required: ['applicationId', 'applicationName', 'categoryId', 'categoryName', 'deployedTime', 'deployer', 'deploymentId', 'environmentId', 'id'],
+    required: [
+        'applicationId',
+        'applicationName',
+        'categoryId',
+        'categoryName',
+        'deployedTime',
+        'deployer',
+        'deploymentId',
+        'environmentId',
+        'id'
+    ],
     properties: {
         deploymentId: {
             type: 'integer',
@@ -396,7 +424,10 @@ export const CreatableNamedReferenceSchema = {
 
 export const EnvironmentCategorySchema = {
     type: 'object',
-    required: ['id', 'name'],
+    required: [
+        'id',
+        'name'
+    ],
     properties: {
         id: {
             type: 'integer',
@@ -413,7 +444,7 @@ export const EnvironmentCategorySchema = {
             example: 10
         },
         type: {
-            '$ref': '#/components/schemas/EnvironmentCategoryType'
+            $ref: '#/components/schemas/EnvironmentCategoryType'
         }
     }
 } as const;
@@ -421,12 +452,20 @@ export const EnvironmentCategorySchema = {
 export const EnvironmentCategoryTypeSchema = {
     type: 'string',
     example: 'STAGING',
-    enum: ['DEVELOPMENT', 'TESTING', 'STAGING', 'PRODUCTION']
+    enum: [
+        'DEVELOPMENT',
+        'TESTING',
+        'STAGING',
+        'PRODUCTION'
+    ]
 } as const;
 
 export const EnvironmentStatusSchema = {
     type: 'object',
-    required: ['id', 'name'],
+    required: [
+        'id',
+        'name'
+    ],
     properties: {
         id: {
             type: 'integer',
@@ -457,21 +496,21 @@ export const ScopedStatusChangeRequestSchema = {
     type: 'object',
     properties: {
         scope: {
-            '$ref': '#/components/schemas/EnvironmentsScope'
+            $ref: '#/components/schemas/EnvironmentsScope'
         },
         status: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         ignoredStatuses: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         statusMapping: {
             type: 'object',
             additionalProperties: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         }
     }
@@ -497,7 +536,16 @@ export const EnvironmentStatusChangeRequestSchema = {
 
 export const StatusChangeSchema = {
     type: 'object',
-    required: ['applicationId', 'applicationName', 'categoryId', 'categoryName', 'changedBy', 'changedOn', 'id', 'statusName'],
+    required: [
+        'applicationId',
+        'applicationName',
+        'categoryId',
+        'categoryName',
+        'changedBy',
+        'changedOn',
+        'id',
+        'statusName'
+    ],
     properties: {
         id: {
             type: 'integer',
@@ -533,7 +581,7 @@ export const StatusChangeSchema = {
             readOnly: true
         },
         status: {
-            '$ref': '#/components/schemas/EnvironmentStatus'
+            $ref: '#/components/schemas/EnvironmentStatus'
         },
         changedBy: {
             type: 'string',
@@ -572,35 +620,40 @@ export const StatusChangeResultSchema = {
     type: 'object',
     properties: {
         errors: {
-            '$ref': '#/components/schemas/ErrorCollection'
+            $ref: '#/components/schemas/ErrorCollection'
         },
         type: {
-            '$ref': '#/components/schemas/StatusChangeResultType'
+            $ref: '#/components/schemas/StatusChangeResultType'
         },
         previousStatus: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         currentStatus: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         }
     }
 } as const;
 
 export const StatusChangeResultTypeSchema = {
     type: 'string',
-    enum: ['IGNORED', 'CHANGED', 'FAILED', 'NOT_MODIFIED']
+    enum: [
+        'IGNORED',
+        'CHANGED',
+        'FAILED',
+        'NOT_MODIFIED'
+    ]
 } as const;
 
 export const StatusChangesResponseSchema = {
     type: 'object',
     properties: {
         requestedStatus: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         environments: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/EnvironmentStatusChange'
+                $ref: '#/components/schemas/EnvironmentStatusChange'
             }
         }
     }
@@ -610,10 +663,10 @@ export const EnvironmentStatusChangeSchema = {
     type: 'object',
     properties: {
         environment: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         result: {
-            '$ref': '#/components/schemas/StatusChangeResult'
+            $ref: '#/components/schemas/StatusChangeResult'
         }
     }
 } as const;
@@ -624,7 +677,7 @@ export const EnvironmentsScopeSchema = {
         criteria: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/EnvironmentSearchCriterion'
+                $ref: '#/components/schemas/EnvironmentSearchCriterion'
             }
         }
     }
@@ -637,7 +690,7 @@ export const IssueDeployedRequestSchema = {
             type: 'string'
         },
         scope: {
-            '$ref': '#/components/schemas/EnvironmentsScope'
+            $ref: '#/components/schemas/EnvironmentsScope'
         },
         buildNumber: {
             type: 'string'
@@ -668,7 +721,13 @@ export const EnvironmentSearchCriterionSchema = {
 
 export const EnvironmentPermissionSchemeSchema = {
     type: 'object',
-    required: ['description', 'global', 'id', 'name', 'roles'],
+    required: [
+        'description',
+        'global',
+        'id',
+        'name',
+        'roles'
+    ],
     properties: {
         id: {
             type: 'integer',
@@ -685,7 +744,7 @@ export const EnvironmentPermissionSchemeSchema = {
         },
         roles: {
             type: 'array',
-            example: "['Admin', 'Anonymous', 'Mosaic Team Members']",
+            example: '[\'Admin\', \'Anonymous\', \'Mosaic Team Members\']',
             items: {
                 type: 'string'
             }
@@ -699,13 +758,17 @@ export const EnvironmentPermissionSchemeSchema = {
 
 export const EnvironmentRequestSchema = {
     type: 'object',
-    required: ['application', 'category', 'name'],
+    required: [
+        'application',
+        'category',
+        'name'
+    ],
     properties: {
         application: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         category: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         name: {
             type: 'string'
@@ -714,31 +777,31 @@ export const EnvironmentRequestSchema = {
             type: 'string'
         },
         environmentPermissionScheme: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         url: {
             type: 'string',
             example: 'https://ecom-staging-my-company.com/welcome'
         },
         parent: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         tiers: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         incomingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         outgoingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         attributes: {
@@ -758,7 +821,11 @@ export const EnvironmentRequestSchema = {
 
 export const EnvironmentResponseSchema = {
     type: 'object',
-    required: ['application', 'category', 'name'],
+    required: [
+        'application',
+        'category',
+        'name'
+    ],
     properties: {
         id: {
             type: 'integer',
@@ -767,10 +834,10 @@ export const EnvironmentResponseSchema = {
             readOnly: true
         },
         application: {
-            '$ref': '#/components/schemas/ApplicationResponse'
+            $ref: '#/components/schemas/ApplicationResponse'
         },
         category: {
-            '$ref': '#/components/schemas/EnvironmentCategory'
+            $ref: '#/components/schemas/EnvironmentCategory'
         },
         name: {
             type: 'string'
@@ -779,17 +846,17 @@ export const EnvironmentResponseSchema = {
             type: 'string'
         },
         environmentPermissionScheme: {
-            '$ref': '#/components/schemas/EnvironmentPermissionScheme'
+            $ref: '#/components/schemas/EnvironmentPermissionScheme'
         },
         status: {
-            '$ref': '#/components/schemas/EnvironmentStatus'
+            $ref: '#/components/schemas/EnvironmentStatus'
         },
         url: {
             type: 'string',
             example: 'https://ecom-staging-my-company.com/welcome'
         },
         deployment: {
-            '$ref': '#/components/schemas/DeploymentResponse'
+            $ref: '#/components/schemas/DeploymentResponse'
         },
         watched: {
             type: 'boolean',
@@ -797,24 +864,24 @@ export const EnvironmentResponseSchema = {
             readOnly: true
         },
         parent: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         tiers: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         incomingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         outgoingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         attributes: {
@@ -832,7 +899,7 @@ export const EnvironmentFilterSchema = {
         criteria: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/EnvironmentSearchCriterion'
+                $ref: '#/components/schemas/EnvironmentSearchCriterion'
             }
         },
         sortOrder: {
@@ -857,7 +924,10 @@ export const EnvironmentFilterSchema = {
 
 export const PaginatedEnvironmentResponseSchema = {
     type: 'object',
-    required: ['count', 'offset'],
+    required: [
+        'count',
+        'offset'
+    ],
     properties: {
         count: {
             type: 'integer',
@@ -874,7 +944,7 @@ export const PaginatedEnvironmentResponseSchema = {
         environments: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/EnvironmentResponse'
+                $ref: '#/components/schemas/EnvironmentResponse'
             }
         }
     }
@@ -891,10 +961,10 @@ export const EnvironmentReferenceSchema = {
             type: 'string'
         },
         application: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         category: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         }
     }
 } as const;
@@ -905,7 +975,7 @@ export const EnvironmentReferenceResponseSchema = {
         items: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/EnvironmentReference'
+                $ref: '#/components/schemas/EnvironmentReference'
             }
         }
     }
@@ -924,7 +994,7 @@ export const CloneEnvironmentRequestSchema = {
     type: 'object',
     properties: {
         from: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         failIfNameExists: {
             type: 'boolean'
@@ -933,7 +1003,7 @@ export const CloneEnvironmentRequestSchema = {
             type: 'boolean'
         },
         override: {
-            '$ref': '#/components/schemas/CloneEnvironmentOverride'
+            $ref: '#/components/schemas/CloneEnvironmentOverride'
         }
     }
 } as const;
@@ -957,7 +1027,7 @@ export const OptionReferenceResourceResponseSchema = {
         items: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/OptionReferenceResource'
+                $ref: '#/components/schemas/OptionReferenceResource'
             }
         }
     }
@@ -974,7 +1044,14 @@ export const WatcherStatisticsSchema = {
 
 export const EnvironmentWatcherSchema = {
     type: 'object',
-    required: ['environmentId', 'watchDeployedVersion', 'watchEnvironmentChanged', 'watchIssueAdded', 'watchIssueRemoved', 'watchStatus'],
+    required: [
+        'environmentId',
+        'watchDeployedVersion',
+        'watchEnvironmentChanged',
+        'watchIssueAdded',
+        'watchIssueRemoved',
+        'watchStatus'
+    ],
     properties: {
         id: {
             type: 'integer',
@@ -1019,10 +1096,12 @@ export const EnvironmentWatcherSchema = {
 
 export const VersionInfoRequestSchema = {
     type: 'object',
-    required: ['versionName'],
+    required: [
+        'versionName'
+    ],
     properties: {
         application: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         versionName: {
             type: 'string',
@@ -1045,26 +1124,28 @@ export const VersionInfoRequestSchema = {
             type: 'boolean'
         },
         issues: {
-            '$ref': '#/components/schemas/VersionIssues'
+            $ref: '#/components/schemas/VersionIssues'
         }
     }
 } as const;
 
 export const EnvironmentInfoRequestSchema = {
     type: 'object',
-    required: ['environment'],
+    required: [
+        'environment'
+    ],
     properties: {
         environmentSelector: {
-            '$ref': '#/components/schemas/EnvironmentInfoSelector'
+            $ref: '#/components/schemas/EnvironmentInfoSelector'
         },
         deployment: {
-            '$ref': '#/components/schemas/DeploymentInfo'
+            $ref: '#/components/schemas/DeploymentInfo'
         },
         environment: {
-            '$ref': '#/components/schemas/EnvironmentInfo'
+            $ref: '#/components/schemas/EnvironmentInfo'
         },
         status: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         }
     }
 } as const;
@@ -1099,7 +1180,7 @@ export const DeploymentInfoSchema = {
             }
         },
         issues: {
-            '$ref': '#/components/schemas/DeployedIssues'
+            $ref: '#/components/schemas/DeployedIssues'
         }
     }
 } as const;
@@ -1108,13 +1189,13 @@ export const EnvironmentInfoSelectorSchema = {
     type: 'object',
     properties: {
         environment: {
-            '$ref': '#/components/schemas/CreatableNamedReference'
+            $ref: '#/components/schemas/CreatableNamedReference'
         },
         application: {
-            '$ref': '#/components/schemas/CreatableNamedReference'
+            $ref: '#/components/schemas/CreatableNamedReference'
         },
         category: {
-            '$ref': '#/components/schemas/CreatableNamedReference'
+            $ref: '#/components/schemas/CreatableNamedReference'
         }
     }
 } as const;
@@ -1138,16 +1219,18 @@ export const EnvironmentInfoSchema = {
 
 export const EnvironmentInfoResponseSchema = {
     type: 'object',
-    required: ['environment'],
+    required: [
+        'environment'
+    ],
     properties: {
         environment: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         deployment: {
-            '$ref': '#/components/schemas/DeploymentDetail'
+            $ref: '#/components/schemas/DeploymentDetail'
         },
         status: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         }
     }
 } as const;
@@ -1209,7 +1292,11 @@ export const DeploymentDetailSchema = {
 
 export const DefaultBooleanSchema = {
     type: 'string',
-    enum: ['yes', 'no', 'default']
+    enum: [
+        'yes',
+        'no',
+        'default'
+    ]
 } as const;
 
 export const DeployedIssuesSchema = {
@@ -1260,7 +1347,10 @@ export const VersionIssuesSchema = {
 
 export const VersionInfoSchema = {
     type: 'object',
-    required: ['versionId', 'versionName'],
+    required: [
+        'versionId',
+        'versionName'
+    ],
     properties: {
         versionId: {
             type: 'integer',
@@ -1296,12 +1386,15 @@ export const VersionInfoSchema = {
 
 export const VersionInfoResponseSchema = {
     type: 'object',
-    required: ['versionId', 'versionName'],
+    required: [
+        'versionId',
+        'versionName'
+    ],
     properties: {
         versions: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/VersionInfo'
+                $ref: '#/components/schemas/VersionInfo'
             },
             format: 'int64',
             example: 10200
@@ -1331,7 +1424,7 @@ export const DeploymentResponseWritableSchema = {
         orderedAttributes: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/AttributeValue'
+                $ref: '#/components/schemas/AttributeValue'
             }
         },
         issueKeys: {
@@ -1350,7 +1443,15 @@ export const DeploymentResponseWritableSchema = {
 
 export const DeploymentRequestWritableSchema = {
     type: 'object',
-    required: ['applicationId', 'applicationName', 'categoryId', 'categoryName', 'deployedTime', 'deployer', 'environmentId'],
+    required: [
+        'applicationId',
+        'applicationName',
+        'categoryId',
+        'categoryName',
+        'deployedTime',
+        'deployer',
+        'environmentId'
+    ],
     properties: {
         versionName: {
             type: 'string',
@@ -1386,7 +1487,7 @@ export const StatusChangeWritableSchema = {
     type: 'object',
     properties: {
         status: {
-            '$ref': '#/components/schemas/EnvironmentStatus'
+            $ref: '#/components/schemas/EnvironmentStatus'
         }
     },
     xml: {
@@ -1396,7 +1497,12 @@ export const StatusChangeWritableSchema = {
 
 export const EnvironmentPermissionSchemeWritableSchema = {
     type: 'object',
-    required: ['description', 'id', 'name', 'roles'],
+    required: [
+        'description',
+        'id',
+        'name',
+        'roles'
+    ],
     properties: {
         id: {
             type: 'integer',
@@ -1413,7 +1519,7 @@ export const EnvironmentPermissionSchemeWritableSchema = {
         },
         roles: {
             type: 'array',
-            example: "['Admin', 'Anonymous', 'Mosaic Team Members']",
+            example: '[\'Admin\', \'Anonymous\', \'Mosaic Team Members\']',
             items: {
                 type: 'string'
             }
@@ -1423,13 +1529,17 @@ export const EnvironmentPermissionSchemeWritableSchema = {
 
 export const EnvironmentResponseWritableSchema = {
     type: 'object',
-    required: ['application', 'category', 'name'],
+    required: [
+        'application',
+        'category',
+        'name'
+    ],
     properties: {
         application: {
-            '$ref': '#/components/schemas/ApplicationResponse'
+            $ref: '#/components/schemas/ApplicationResponse'
         },
         category: {
-            '$ref': '#/components/schemas/EnvironmentCategory'
+            $ref: '#/components/schemas/EnvironmentCategory'
         },
         name: {
             type: 'string'
@@ -1438,37 +1548,37 @@ export const EnvironmentResponseWritableSchema = {
             type: 'string'
         },
         environmentPermissionScheme: {
-            '$ref': '#/components/schemas/EnvironmentPermissionSchemeWritable'
+            $ref: '#/components/schemas/EnvironmentPermissionSchemeWritable'
         },
         status: {
-            '$ref': '#/components/schemas/EnvironmentStatus'
+            $ref: '#/components/schemas/EnvironmentStatus'
         },
         url: {
             type: 'string',
             example: 'https://ecom-staging-my-company.com/welcome'
         },
         deployment: {
-            '$ref': '#/components/schemas/DeploymentResponseWritable'
+            $ref: '#/components/schemas/DeploymentResponseWritable'
         },
         parent: {
-            '$ref': '#/components/schemas/NamedReference'
+            $ref: '#/components/schemas/NamedReference'
         },
         tiers: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         incomingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         outgoingDependencies: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/NamedReference'
+                $ref: '#/components/schemas/NamedReference'
             }
         },
         attributes: {
@@ -1480,9 +1590,44 @@ export const EnvironmentResponseWritableSchema = {
     }
 } as const;
 
+export const PaginatedEnvironmentResponseWritableSchema = {
+    type: 'object',
+    required: [
+        'count',
+        'offset'
+    ],
+    properties: {
+        count: {
+            type: 'integer',
+            format: 'int64'
+        },
+        limit: {
+            type: 'integer',
+            format: 'int32'
+        },
+        offset: {
+            type: 'integer',
+            format: 'int64'
+        },
+        environments: {
+            type: 'array',
+            items: {
+                $ref: '#/components/schemas/EnvironmentResponseWritable'
+            }
+        }
+    }
+} as const;
+
 export const EnvironmentWatcherWritableSchema = {
     type: 'object',
-    required: ['environmentId', 'watchDeployedVersion', 'watchEnvironmentChanged', 'watchIssueAdded', 'watchIssueRemoved', 'watchStatus'],
+    required: [
+        'environmentId',
+        'watchDeployedVersion',
+        'watchEnvironmentChanged',
+        'watchIssueAdded',
+        'watchIssueRemoved',
+        'watchStatus'
+    ],
     properties: {
         userKey: {
             type: 'string'
@@ -1515,6 +1660,24 @@ export const EnvironmentWatcherWritableSchema = {
         watchIssueRemoved: {
             type: 'boolean',
             example: true
+        }
+    }
+} as const;
+
+export const EnvironmentInfoResponseWritableSchema = {
+    type: 'object',
+    required: [
+        'environment'
+    ],
+    properties: {
+        environment: {
+            $ref: '#/components/schemas/NamedReference'
+        },
+        deployment: {
+            $ref: '#/components/schemas/DeploymentDetailWritable'
+        },
+        status: {
+            $ref: '#/components/schemas/NamedReference'
         }
     }
 } as const;
