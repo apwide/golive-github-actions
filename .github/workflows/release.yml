@@ -4,6 +4,9 @@ on:
   push:
       branches:
         - 'release/**'
+permissions:
+  id-token: write
+  contents: write
 jobs:
   bump-and-publish:
     name: 'Build, Release & Publish'
@@ -44,8 +47,7 @@ jobs:
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
       - name: Publish
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        env: {}
 
   bump-send-environment-info-action:
     needs: bump-and-publish
