@@ -348,7 +348,7 @@ npm test
 **Solution**: Run `npm ci` to install dependencies
 
 **Issue**: Git log fails in actions  
-**Solution**: Use `actions/checkout@v4` with `fetch-depth: 0` for full history
+**Solution**: Use `actions/checkout@v7` with `fetch-depth: 0` for full history
 
 **Issue**: Authentication fails  
 **Solution**: Verify token/credentials are set correctly in action inputs

@@ -4,6 +4,9 @@ on:
   push:
       branches:
         - 'release/**'
+permissions:
+  id-token: write
+  contents: write
 jobs:
   bump-and-publish:
     name: 'Build, Release & Publish'
@@ -12,7 +15,7 @@ jobs:
       version: ${{ steps.capture.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Bump
         if: success()
         uses: 'phips28/gh-action-bump-version@master'
@@ -22,7 +25,7 @@ jobs:
           major-wording: 'BREAKING'
           default: 'minor'
           commit-message: 'chore: version bump to {{version}}'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         env:
           NODE_OPTIONS: --openssl-legacy-provider
         with:
@@ -47,7 +50,6 @@ jobs:
         run: npm publish
         env:
           NODE_OPTIONS: --openssl-legacy-provider
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   bump-send-environment-info-action:
     needs: bump-and-publish
@@ -58,7 +60,7 @@ jobs:
         working-directory: 'actions/golive-send-environment-info'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         name: checkout golive-send-environment-info
         with:
           repository: apwide/golive-send-environment-info
@@ -68,7 +70,7 @@ jobs:
       - run: |
           git config --global user.name 'Apwide CI'
           git config --global user.email 'ci@apwide.com'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         env:
           NODE_OPTIONS: --openssl-legacy-provider
         with:
@@ -94,7 +96,7 @@ jobs:
         working-directory: 'actions/golive-send-release-info'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         name: checkout golive-send-release-info
         with:
           repository: apwide/golive-send-release-info
@@ -104,7 +106,7 @@ jobs:
       - run: |
           git config --global user.name 'Apwide CI'
           git config --global user.email 'ci@apwide.com'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         env:
           NODE_OPTIONS: --openssl-legacy-provider
         with:
