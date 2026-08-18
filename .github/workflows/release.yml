@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.capture.outputs.version }}
+      branch: ${{ steps.extract_branch.outputs.branch }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -26,7 +27,6 @@ jobs:
           default: 'minor'
           commit-message: 'chore: version bump to {{version}}'
       - uses: actions/setup-node@v7
-        env: {}
         with:
           node-version-file: .node-version
           cache: 'npm'
@@ -44,10 +44,11 @@ jobs:
           echo "version=$ACTION_VERSION" >> $GITHUB_OUTPUT
       - name: Extract branch name
         id: extract_branch
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        run: |
+          echo "OUTPUT=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
       - name: Publish
         run: npm publish
-        env: {}
 
   bump-send-environment-info-action:
     needs: bump-and-publish
@@ -69,7 +70,6 @@ jobs:
           git config --global user.name 'Apwide CI'
           git config --global user.email 'ci@apwide.com'
       - uses: actions/setup-node@v7
-        env: {}
         with:
           node-version-file: ./actions/golive-send-environment-info/.node-version
       - name: bump-actions
@@ -104,7 +104,6 @@ jobs:
           git config --global user.name 'Apwide CI'
           git config --global user.email 'ci@apwide.com'
       - uses: actions/setup-node@v7
-        env: {}
         with:
           node-version-file: ./actions/golive-send-release-info/.node-version
       - name: bump-actions
