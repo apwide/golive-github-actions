@@ -23,8 +23,7 @@ jobs:
           default: 'minor'
           commit-message: 'chore: version bump to {{version}}'
       - uses: actions/setup-node@v4
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
+        env: {}
         with:
           node-version-file: .node-version
           cache: 'npm'
@@ -46,7 +45,6 @@ jobs:
       - name: Publish
         run: npm publish
         env:
-          NODE_OPTIONS: --openssl-legacy-provider
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   bump-send-environment-info-action:
@@ -69,8 +67,7 @@ jobs:
           git config --global user.name 'Apwide CI'
           git config --global user.email 'ci@apwide.com'
       - uses: actions/setup-node@v4
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
+        env: {}
         with:
           node-version-file: ./actions/golive-send-environment-info/.node-version
       - name: bump-actions
@@ -105,8 +102,7 @@ jobs:
           git config --global user.name 'Apwide CI'
           git config --global user.email 'ci@apwide.com'
       - uses: actions/setup-node@v4
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
+        env: {}
         with:
           node-version-file: ./actions/golive-send-release-info/.node-version
       - name: bump-actions
