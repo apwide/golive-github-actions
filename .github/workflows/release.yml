@@ -44,10 +44,15 @@ jobs:
           echo "version=$ACTION_VERSION" >> $GITHUB_OUTPUT
       - name: Extract branch name
         id: extract_branch
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-      - name: Publish
-        run: npm publish
-        env: {}
+        run: |
+          echo "GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME"
+          echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF"
+          echo "GITHUB_REF=$GITHUB_REF"
+          echo "GITHUB_REF_NAME=$GITHUB_REF_NAME"
+          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+#      - name: Publish
+#        run: npm publish
+#        env: {}
 
   bump-send-environment-info-action:
     needs: bump-and-publish
