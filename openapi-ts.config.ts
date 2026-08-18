@@ -13,7 +13,7 @@ export default defineConfig({
     },
     {
       name: '@hey-api/typescript',
-      enums: 'javascript',
+      enums: 'javascript'
       // exportInlineEnums: true,
     },
     // {
@@ -22,10 +22,12 @@ export default defineConfig({
     // },
     {
       name: '@hey-api/sdk',
-      asClass: true,
+      operations: {
+        strategy: 'byTags',
+        containerName: '{{name}}Service',
+        nesting: 'operationId'
+      },
       // classStructure: 'off',
-      operationId: true,
-      classNameBuilder: '{{name}}Service',
       responseStyle: 'data'
       // transformer: true
     }
