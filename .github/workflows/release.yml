@@ -44,10 +44,16 @@ jobs:
           echo "version=$ACTION_VERSION" >> $GITHUB_OUTPUT
       - name: Extract branch name
         id: extract_branch
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-      - name: Publish
-        run: npm publish
-        env: {}
+        run: |
+          echo "GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME"
+          echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF"
+          echo "GITHUB_REF=$GITHUB_REF"
+          echo "GITHUB_REF_NAME=$GITHUB_REF_NAME"
+          echo "OUTPUT=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+#      - name: Publish
+#        run: npm publish
+#        env: {}
 
   bump-send-environment-info-action:
     needs: bump-and-publish
@@ -58,6 +64,10 @@ jobs:
         working-directory: 'actions/golive-send-environment-info'
     runs-on: ubuntu-latest
     steps:
+      - name: Print output
+        id: print_output
+        run: |
+          echo "PREV_OUTPUT=${{ needs.bump-and-publish.outputs.branch }}"
       - uses: actions/checkout@v7
         name: checkout golive-send-environment-info
         with:
@@ -93,6 +103,10 @@ jobs:
         working-directory: 'actions/golive-send-release-info'
     runs-on: ubuntu-latest
     steps:
+      - name: Print output
+        id: print_output
+        run: |
+          echo "PREV_OUTPUT=${{ needs.bump-and-publish.outputs.branch }}"
       - uses: actions/checkout@v7
         name: checkout golive-send-release-info
         with:
