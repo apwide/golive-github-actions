@@ -73,6 +73,7 @@ jobs:
         with:
           client-id: ${{ vars.GH_APP_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          repositories: golive-send-environment-info
       - uses: actions/checkout@v7
         name: checkout golive-send-environment-info
         with:
@@ -112,6 +113,7 @@ jobs:
         with:
           client-id: ${{ vars.GH_APP_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          repositories: golive-send-release-info
       - uses: actions/checkout@v7
         name: checkout golive-send-release-info
         with:
